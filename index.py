@@ -12,17 +12,13 @@ def print_board():
 
 def get_player_move():
     while True:
-        try:
-            # Prompt the user to enter a move and subtract 1 to match the index of the board list
-            player_move = int(input("Enter your move (1-9): ")) - 1
-            # Check if the board position is empty, return the valid move
-            if board[player_move] == " ":
+        player_input = input("Enter your move (1-9): ")
+        if player_input.isdigit():
+            player_move = int(player_input) - 1
+            if 0 <= player_move < len(board) and board[player_move] == " ":
                 return player_move
-            else:
-                print("That position is already taken. Try again.")
-        except ValueError:
-            # Handle invalid input (not an integer)
-            print("Invalid input. Try again.")
+        print("Invalid move. Try again.")
+
 
 def check_win(player):
     # Define the possible winning combinations in tic-tac-toe
@@ -38,7 +34,9 @@ def check_win(player):
             # If so, the player has won the game, so return True
             return True
     # If none of the winning combinations are satisfied, the player has not won the game, so return False
-    return False
+    else:
+        return False
+
 
 def check_tie():
     return " " not in board
@@ -54,14 +52,12 @@ def play_game():
         # Player turn
         player_move = get_player_move()
         board[player_move] = "X"
-        # Check if the player has won
+        print_board()
+        # Check if the player has won or the game is a tie
         if check_win("X"):
-            print_board()
             print("Congratulations! You win!")
             break
-        # Check if the game is a tie
-        if check_tie():
-            print_board()
+        elif check_tie():
             print("It's a tie!")
             break
 
@@ -73,18 +69,14 @@ def play_game():
             if board[computer_move] == " ":
                 board[computer_move] = "O"
                 break
-        # Check if the computer has won
+        print_board()
+        # Check if the computer has won or the game is a tie
         if check_win("O"):
-            print_board()
             print("Sorry, you lose.")
             break
-        # Check if the game is a tie
-        if check_tie():
-            print_board()
+        elif check_tie():
             print("It's a tie!")
             break
-        # Print the updated game board
-        print_board()
 # Start the game
 play_game()
 
