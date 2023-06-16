@@ -4,20 +4,30 @@ board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
 def print_board():
     # Print the current state of the game board
-    print(f"{board[0]} | {board[1]} | {board[2]}")
-    print("--+---+--")
-    print(f"{board[3]} | {board[4]} | {board[5]}")
-    print("--+---+--")
-    print(f"{board[6]} | {board[7]} | {board[8]}")
+    for i in range(0, 9, 3):
+        # Print a row of the board
+        print(f"{board[i]} | {board[i+1]} | {board[i+2]}")
+        
+        if i < 6:
+            # Print a horizontal divider between rows, except for the last row
+            print("--+---+--")
+
 
 def get_player_move():
     while True:
         player_input = input("Enter your move (1-9): ")
+        
         if player_input.isdigit():
+            # Convert player's input to an integer
             player_move = int(player_input) - 1
-            if 0 <= player_move < len(board) and board[player_move] == " ":
+            
+            if player_move in range(len(board)) and board[player_move] == " ":
+                # Check if the player's move is within the valid range (0-8) and the chosen position is empty
                 return player_move
+            
+        # If the input is not a valid digit or the position is already occupied, print an error message and ask for input again
         print("Invalid move. Try again.")
+
 
 
 def check_win(player):
